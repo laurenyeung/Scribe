@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>CS 111 Lecture 2</title>
 <link rel="stylesheet" href="http://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+
 </head>
 <body>
  
@@ -19,13 +20,14 @@
 <div class="callout large primary">
 <div class="row column text-center">
 <h1>Lecture 2 Scribe Notes</h1>
+<p>Written by Garima Lunawat, Lauren Yeung, and Shalini Dangi</p>
 </div>
 </div>
 
  
 <div class="row medium-8 large-7 columns">
 <div class="blog-post">
-<h3>Table of Contents</h3>
+<h2><b>Table of Contents</b></h2>
     <ol class="main">
         <li><a href="#moores">Moore's Law</a></li>
         <li>
@@ -49,65 +51,76 @@
         </li>
         <li><a href="#conclusion">Conclusion</a></li>
     </ol>
-
+<hr>
 
 <p>A bit more philosophy:</p>
 <p>Tradeoffs and scaling have been traditional issues...</p>
-<h3><a name="moores"></a>Moore's Law</h3>
+<h2><b><a name="moores"></a>Moore's Law</b></h2>
 <p>Moore’s Law states that the number of transistors on a chip doubles approximately every 18 months.</p>
 <img class="thumbnail" src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Moore_Law_diagram_(2004).jpg" height="600" width="500">
 <br/>
 <font size="1">https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Transistor_Count_and_Moore's_Law_-_2011.svg/1139px-Transistor_Count_and_Moore's_Law_-_2011.svg.png</font>
 <br/>
-<font face="courier new" size="5" color="green">This is some text!</font>
-<p>Praesent id metus massa, ut blandit odio. Proin quis tortor orci. Etiam at risus et justo dignissim congue. Donec congue lacinia dui, a porttitor lectus condimentum laoreet. Nunc eu ullamcorper orci. Quisque eget odio ac lectus vestibulum faucibus eget in metus. In pellentesque faucibus vestibulum. Nulla at nulla justo, eget luctus.</p>
-<div class="callout">
-<ul class="menu simple">
+
+<!-- <ul class="menu simple">
 <li><a href="#">Author: Mike Mikers</a></li>
 <li><a href="#">Comments: 3</a></li>
-</ul>
+</ul> -->
 </div>
-</div>
+<hr>
 
 <div class="blog-post">
-<h3><a name="kryders"></a>Kryder's Law  </h3>
+<h2><b><a name="kryders"></a>Kryder's Law</b></h2>
 <p>Similarly, Kryder’s Law states that secondary storage capacity also increases exponentially.</p>
 <img class="thumbnail" src="http://regmedia.co.uk/2014/11/10/disk_capacity_increase.jpg">
 <br/>
 <font size="1">http://regmedia.co.uk/2014/11/10/disk_capacity_increase.jpg</font>
 <br/>
-<p>Praesent id metus massa, ut blandit odio. Proin quis tortor orci. Etiam at risus et justo dignissim congue. Donec congue lacinia dui, a porttitor lectus condimentum laoreet. Nunc eu ullamcorper orci. Quisque eget odio ac lectus vestibulum faucibus eget in metus. In pellentesque faucibus vestibulum. Nulla at nulla justo, eget luctus.</p>
-<div class="callout">
-<ul class="menu simple">
-<li><a href="#">Author: Mike Mikers</a></li>
-<li><a href="#">Comments: 3</a></li>
-</ul>
+<hr>
 </div>
-</div>
+</hr>
 
 <div class="blog-post">
-<h3><a name="os"></a>Why Not to Use an OS?</h3>
-<img class="thumbnail" src="http://imgur.com/aFp0EDk.jpg">
-<p>Praesent id metus massa, ut blandit odio. Proin quis tortor orci. Etiam at risus et justo dignissim congue. Donec congue lacinia dui, a porttitor lectus condimentum laoreet. Nunc eu ullamcorper orci. Quisque eget odio ac lectus vestibulum faucibus eget in metus. In pellentesque faucibus vestibulum. Nulla at nulla justo, eget luctus.</p>
-<div class="callout">
-<ul class="menu simple">
-<li><a href="#">Author: Mike Mikers</a></li>
-<li><a href="#">Comments: 3</a></li>
+<h2><b><a name="os"></a>Why Not to Use an OS?</b></h2>
+<p><b>Simplicity</b></p>
+<p> Running a program is much simpler than having an OS run a program.</p>
+<p><b>Performance</b></p>
+<p>An operating system requires a lot of features which adds complexity and as a consequence, affects speed and memory usage.</p>
+<p><b>Reliability</b></p>
+<p>Reliability stems from simplicity.  The code is less likely to break because there is less code.
+</p>
+<p><b>Security</b></p>
+<p>An operating system will increase the amount of code being run and therefore, increase the number of possible security leaks.
+</p>
 </ul>
 </div>
-</div>
+<hr>
+
 <div class="blog-post">
-<h3>Awesome blog post title  </h3>
-<img class="thumbnail" src="http://placehold.it/850x350">
-<p>Praesent id metus massa, ut blandit odio. Proin quis tortor orci. Etiam at risus et justo dignissim congue. Donec congue lacinia dui, a porttitor lectus condimentum laoreet. Nunc eu ullamcorper orci. Quisque eget odio ac lectus vestibulum faucibus eget in metus. In pellentesque faucibus vestibulum. Nulla at nulla justo, eget luctus.</p>
-<div class="callout">
-<ul class="menu simple">
-<li><a href="#">Author: Mike Mikers</a></li>
-<li><a href="#">Comments: 3</a></li>
+<h2><b><a name="wordcount"></a>Word Count Program</b></h2>
+<h4><b>1. Requirements</b></h4>
+<p>Suppose we are writing a program for a paranoid English professor in order to help him count the number of words in his academic proposal.  The program must be run without an operating system.  We know the following:</p>
+<style type="text/css">ul.specs { padding-left: 80px; }</style>
+<ul class="specs">
+    <li>The file is stored in a contiguous array of sectors on the disk drive.</li>
+    <li>The bytes in the file are ASCII characters ranging from \001 to \127.</li>
+    <li>The user interface is simply a power switch and a display screen.</li>
 </ul>
+
+<h4><b>2. Bootstrapping Problem</b></h4>
+<p></p>
+<h4><b>3. Master Boot Record</b></h4>
+<p>The 1st sector on the disk, consisting of 512 bytes, is the Master Boot Record (MBR).  The first part of this sector is the boot program which is run by the firmware in EEPROM.  When the computer starts up, the EEPROM searches for the first device with an MBR and loads it into memory.  Normally, the MBR would then read the volume boot record, VBR, into memory. However since the VBR is OS-specific and the MBR is OS-agnostic (and we do not want to use an OS), we will go straight from the MBR to the program.  The MBR is structured as follows:</p>
+<img class="thumbnail" src="http://imgur.com/aFp0EDk.jpg">
+<p>The first 446 bytes are the boot program.
+The next 64 bytes are a partition table. Each partition is 16 bytes long and contains information such as type and bootability. 
+The remaining two bytes are the signature and are required to be 0x55 and 0xAA (using little endian convention).  This ensures that this sector is, in fact, the Master Boot Record.</p>
+
+
+
+<div class="callout">
 </div>
-</div>
-</div>
+
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="http://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
 <script>
