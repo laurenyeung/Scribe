@@ -82,7 +82,7 @@
 
 <div class="blog-post">
 <h2><b><a name="os"></a>Why Not to Use an OS?</b></h2>
-<p><b>Simplicity</b></p>
+<!--<p><b>Simplicity</b></p>
 <p> Running a program is much simpler than having an OS run a program.</p>
 <p><b>Performance</b></p>
 <p>An operating system requires a lot of features which adds complexity and as a consequence, affects speed and memory usage.</p>
@@ -94,7 +94,14 @@
 </p>
 </ul>
 </div>
-<hr>
+<hr> -->
+
+<p>There are four basic reasons why using an OS might be a bad idea:</p>
+    <li>Running a program is much SIMPLER than having an OS run a program.</li>
+    <li>An OS requires additional features (adding complexity) and slowing PERFORMANCE.</li>
+    <li>RELIABILITY stems from simplicity.  The code is less likely to break because there is less code.</li>
+    <li>More code inevitably increases the number of possible SECURITY leaks.</li>
+
 
 <div class="blog-post">
 <h2><b><a name="wordcount"></a>Word Count Program</b></h2>
@@ -114,6 +121,7 @@
     <li>Searches for devices</li>
     <li>Looks for Master Boot Record</li>
     <li>Attempts to boot off of Master Boot Record</li>
+    
 <h4><b>3. Master Boot Record</b></h4>
 <p>The 1st sector on the disk, consisting of 512 bytes, is the Master Boot Record (MBR).  The first part of this sector is the boot program which is run by the firmware in EEPROM.  When the computer starts up, the EEPROM searches for the first device with an MBR and loads it into memory.  Normally, the MBR would then read the volume boot record, VBR, into memory. However since the VBR is OS-specific and the MBR is OS-agnostic (and we do not want to use an OS), we will go straight from the MBR to the program.  The MBR is structured as follows:</p>
 <img class="thumbnail" src="http://imgur.com/aFp0EDk.jpg">
