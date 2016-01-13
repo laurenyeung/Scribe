@@ -124,7 +124,7 @@
     <li>Searches for devices</li>
     <li>Looks for Master Boot Record</li>
     <li>Attempts to boot off of Master Boot Record</li>
-    
+    <li></li>
 <h4><b>3. Master Boot Record</b></h4>
 <p>The 1st sector on the disk, consisting of 512 bytes, is the Master Boot Record (MBR).  The first part of this sector is the boot program which is run by the firmware in EEPROM.  When the computer starts up, the EEPROM searches for the first device with an MBR and loads it into memory.  Normally, the MBR would then read the volume boot record, VBR, into memory. However since the VBR is OS-specific and the MBR is OS-agnostic (and we do not want to use an OS), we will go straight from the MBR to the program.  The MBR is structured as follows:</p>
 <img class="thumbnail" src="http://imgur.com/aFp0EDk.jpg">
