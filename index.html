@@ -132,11 +132,73 @@ The remaining two bytes are the signature and are required to be 0x55 and 0xAA (
 <h4><b>4. Code Implementation</b></h4>
 <p>To summarize, the load sequence that we want is: Firmware &rarr; MBR &rarr; word count program. In order to implement this, we will need a subroutine that allows us to read data from the disk. The following subroutine requires the sector number to read from and the memory address to read into.</p>
 
+<pre>void read_ide_sector(int s, char* a)
+{
+    while ((inb (0x1f7) & 0xC0) != 0x40)    // waits for disk to be ready   
+        continue;
+    outb(0x1f2,1);              // sector count
+    outb(0x1f3, s);                 // low order byte
+    outb (0x1f4, s >> 8);           // 0x1f3 - 0x1f7 = sector number
+    outb (0x1f5, s >> 16);          
+    outb (0x1f6, s >> 24);      // high order byte
+    outb (0x1f7, 0x20);         // status and command register
+    while ((inb (0x1f7) & 0xC0) != 0x40)
+        continue;
+    insl (0x1f0, a, 128);       // write to memory address a
+}
+</pre>
+
 <p>Additionally, we must implement a routine that allows us to print the result to the display screen: This function takes in the number of words as parameter.</p>
+
+<pre>
+void output_to_screen(long n)
+{
+    short *p = (short*)0xb8000 + 80*25/2 - 80/2;
+    do
+    {
+        // make sure that the digits print in the correct order
+        *--p = (0x700)| (n % 10 + '0'); 
+        n /= 10;
+    } while (n != 0);
+}
+</pre>
 
 <p>Finally, we must use the halt instruction once the program is finished:</p>
 
+<pre>
+void done(long nwords)
+{
+    output_to_screen(nwords);
+    halt();
+}
+</pre>
+
 <p>Now, using all of the subroutines, we can put together our main function.</p>
+
+<pre>
+void main(void)
+{
+    long nwords = 0;        // number of words
+    bool inword = 0;        // are we in the middle of a word?
+    int s = 1000;
+    char buf[512];
+    for (;;)
+    {
+        read_ide_sector(s++, buf);      // read the sector into the buffer
+        for (int ix = 0; ix < sizeof(buf); ix++)
+        {
+            // assume a null byte indicates the end of the file
+            if (!buf[ix])       
+                done(nwords);
+            // check if the letter is valid (a-z)
+            bool isletter = 'A' | 'a' <= buf[ix] && buf[ix] <= 'z' || 'z'
+            nwords += isletter & ~inword;
+            inword = isletter;
+        }
+    }
+}
+
+</pre>
 
 <div class="callout">
 </div>
