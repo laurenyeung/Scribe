@@ -110,7 +110,8 @@
 <h2><b><a name="wordcount"></a>Word Count Program</b></h2>
 <h4><b>1. Requirements</b></h4>
 <p>Suppose we are writing a program for a paranoid English professor in order to help him count the number of words in his academic proposal.  The program must be run without an operating system.  We know the following:</p>
-<style type="text/css">ul.specs { padding-left: 80px; }</style>
+<style type="text/css">ul.specs { padding-left: 80px; }
+.comment {color: #1F3A93}</style>
 <ul class="specs">
     <li>The file is stored in a contiguous array of sectors on the disk drive.</li>
     <li>The bytes in the file are ASCII characters ranging from \001 to \127.</li>
@@ -124,7 +125,7 @@
     <li>Searches for devices</li>
     <li>Looks for Master Boot Record</li>
     <li>Attempts to boot off of Master Boot Record</li>
-    <li></li>
+
 <h4><b>3. Master Boot Record</b></h4>
 <p>The 1st sector on the disk, consisting of 512 bytes, is the Master Boot Record (MBR).  The first part of this sector is the boot program which is run by the firmware in EEPROM.  When the computer starts up, the EEPROM searches for the first device with an MBR and loads it into memory.  Normally, the MBR would then read the volume boot record, VBR, into memory. However since the VBR is OS-specific and the MBR is OS-agnostic (and we do not want to use an OS), we will go straight from the MBR to the program.  The MBR is structured as follows:</p>
 <img class="thumbnail" src="http://imgur.com/aFp0EDk.jpg">
@@ -137,17 +138,17 @@ The remaining two bytes are the signature and are required to be 0x55 and 0xAA (
 
 <pre>void read_ide_sector(int s, char* a)
 {
-    while ((inb (0x1f7) & 0xC0) != 0x40)    // waits for disk to be ready   
+    while ((inb (0x1f7) & 0xC0) != 0x40)    <span class="comment">// waits for disk to be ready</span>   
         continue;
-    outb(0x1f2,1);              // sector count
-    outb(0x1f3, s);                 // low order byte
-    outb (0x1f4, s >> 8);           // 0x1f3 - 0x1f7 = sector number
+    outb(0x1f2,1);                          <span class="comment">// sector count</span>
+    outb(0x1f3, s);                         <span class="comment">// low order byte</span>
+    outb (0x1f4, s >> 8);                   <span class="comment">// 0x1f3 - 0x1f7 = sector number</span>
     outb (0x1f5, s >> 16);          
-    outb (0x1f6, s >> 24);      // high order byte
-    outb (0x1f7, 0x20);         // status and command register
+    outb (0x1f6, s >> 24);                  <span class="comment">// high order byte</span>
+    outb (0x1f7, 0x20);                     <span class="comment">// status and command register</span>
     while ((inb (0x1f7) & 0xC0) != 0x40)
         continue;
-    insl (0x1f0, a, 128);       // write to memory address a
+    insl (0x1f0, a, 128);                   <span class="comment">// write to memory address a</span>
 }
 </pre>
 
@@ -159,7 +160,7 @@ void output_to_screen(long n)
     short *p = (short*)0xb8000 + 80*25/2 - 80/2;
     do
     {
-        // make sure that the digits print in the correct order
+        <span class="comment">// make sure that the digits print in the correct order</span>
         *--p = (0x700)| (n % 10 + '0'); 
         n /= 10;
     } while (n != 0);
@@ -181,13 +182,13 @@ void done(long nwords)
 <pre>
 void main(void)
 {
-    long nwords = 0;        // number of words
-    bool inword = 0;        // are we in the middle of a word?
+    long nwords = 0;        <span class="comment">// number of words</span>
+    bool inword = 0;        <span class="comment">// are we in the middle of a word?</span>
     int s = 1000;
     char buf[512];
     for (;;)
     {
-        read_ide_sector(s++, buf);      // read the sector into the buffer
+        read_ide_sector(s++, buf);      <span class="comment">// read the sector into the buffer</span>
         for (int ix = 0; ix < sizeof(buf); ix++)
         {
             // assume a null byte indicates the end of the file
