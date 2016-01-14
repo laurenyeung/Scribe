@@ -141,19 +141,24 @@ The remaining two bytes are the signature and are required to be 0x55 and 0xAA (
 <h4><b>4. Code Implementation</b></h4>
 <p>To summarize, the load sequence that we want is: Firmware &rarr; MBR &rarr; word count program. In order to implement this, we will need a subroutine that allows us to read data from the disk. The following subroutine requires the sector number to read from and the memory address to read into.</p>
 
-<pre>void read_ide_sector(int s, char* a)
+</hr>
+
+<p>Note: There are no error checks in this code (assumed that there are no I/O or parity errors). Due to this, read_ide_sector can return void.</p>
+<hr>
+
+<pre>void read_ide_sector(int s, char* a)       <span class="comment">//s is the sector number, a is the memory address</span>
 {
-    while ((inb (0x1f7) & 0xC0) != 0x40)    <span class="comment">// waits for disk to be ready</span>   
+    while ((inb (0x1f7) & 0xC0) != 0x40)        <span class="comment">// waits for disk to be ready</span>   
         continue;
-    outb(0x1f2,1);                          <span class="comment">// sector count</span>
-    outb(0x1f3, s);                         <span class="comment">// low order byte</span>
-    outb (0x1f4, s >> 8);                   <span class="comment">// 0x1f3 - 0x1f7 = sector number</span>
+    outb(0x1f2,1);                              <span class="comment">// sector count</span>
+    outb(0x1f3, s);                             <span class="comment">// low order byte</span>
+    outb (0x1f4, s >> 8);                       <span class="comment">// 0x1f3 - 0x1f7 = sector number</span>
     outb (0x1f5, s >> 16);          
-    outb (0x1f6, s >> 24);                  <span class="comment">// high order byte</span>
-    outb (0x1f7, 0x20);                     <span class="comment">// status and command register</span>
+    outb (0x1f6, s >> 24);                      <span class="comment">// high order byte</span>
+    outb (0x1f7, 0x20);                         <span class="comment">// status and command register</span>
     while ((inb (0x1f7) & 0xC0) != 0x40)
         continue;
-    insl (0x1f0, a, 128);                   <span class="comment">// write to memory address a</span>
+    insl (0x1f0, a, 128);                       <span class="comment">// write to memory address a</span>
 }
 </pre>
 
