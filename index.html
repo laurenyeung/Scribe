@@ -27,8 +27,10 @@
  
 <div class="row medium-8 large-7 columns">
 <div class="blog-post">
+<style type="text/css">ul.specs { padding-left: 80px; }
+.comment {color: #1F3A93}</style>
 <h2><b>Table of Contents</b></h2>
-    <ol class="main">
+    <ol class="main" class = "specs">
         <li><a href="#moores">Moore's Law</a></li>
         <li>
             <a href="#kryders">Kryder's Law</a>
@@ -49,7 +51,6 @@
                 <li><a href="#word_count_program">Word Count Program</a></li>
             </ol> -->
         </li>
-        <li><a href="#conclusion">Conclusion</a></li>
     </ol>
 <hr>
 
@@ -104,7 +105,7 @@
     <li>An OS requires additional features (adding complexity) and therefore, slows <b>performance</b>.</li>
     <li><b>Reliability</b> stems from simplicity.  The code is less likely to break because there is less code.</li>
     <li>More code inevitably increases the number of possible <b>security</b> leaks.</li>
-
+<hr>
 
 <div class="blog-post">
 <h2><b><a name="wordcount"></a>Word Count Program</b></h2>
@@ -112,7 +113,7 @@
 <p>Suppose we are writing a program for a paranoid English professor in order to help him count the number of words in his academic proposal.  The program must be run without an operating system.  We know the following:</p>
 <style type="text/css">ul.specs { padding-left: 80px; }
 .comment {color: #1F3A93}</style>
-<ul class="specs">
+<ul class= "specs">
     <li>The file is stored in a contiguous array of sectors on the disk drive.</li>
     <li>The bytes in the file are ASCII characters ranging from \001 to \127.</li>
     <li>The user interface is simply a power switch and a display screen.</li>
@@ -121,10 +122,14 @@
 <h4><b>2. Bootstrapping Problem</b></h4>
 <p>Bootstrapping is the process of loading software into the memory of a computer after the computer has been powered on.  In this case, the word count program must be loaded into RAM so that it can be executed after the computer is started.</p>
 <p>This is done by the BIOS, or the basic input/output system.  At startup, the BIOS is used to get the computer system started.  Additionally, it is also used to manage data flow between the operating system and any devices.  The BIOS is stored in ROM and at startup does the following:</p>
+<style type="text/css">ol.specs { padding-left: 80px; }
+.comment {color: #1F3A93}</style>
+<ol class = "specs">
     <li>Runs hardware sanity checks</li>
     <li>Searches for devices</li>
     <li>Looks for Master Boot Record</li>
     <li>Attempts to boot off of Master Boot Record</li>
+</ol>
 
 <h4><b>3. Master Boot Record</b></h4>
 <p>The 1st sector on the disk, consisting of 512 bytes, is the Master Boot Record (MBR).  The first part of this sector is the boot program which is run by the firmware in EEPROM.  When the computer starts up, the EEPROM searches for the first device with an MBR and loads it into memory.  Normally, the MBR would then read the volume boot record, VBR, into memory. However since the VBR is OS-specific and the MBR is OS-agnostic (and we do not want to use an OS), we will go straight from the MBR to the program.  The MBR is structured as follows:</p>
@@ -190,11 +195,11 @@ void main(void)
     {
         read_ide_sector(s++, buf);      <span class="comment">// read the sector into the buffer</span>
         for (int ix = 0; ix < sizeof(buf); ix++)
-        {
-            // assume a null byte indicates the end of the file
+        {   
+            <span class="comment">// assume a null byte indicates the end of the file</span>
             if (!buf[ix])       
                 done(nwords);
-            // check if the letter is valid (a-z)
+            <span class="comment">// check if the letter is valid (a-z)</span>
             bool isletter = 'A' | 'a' <= buf[ix] && buf[ix] <= 'z' || 'z'
             nwords += isletter & ~inword;
             inword = isletter;
