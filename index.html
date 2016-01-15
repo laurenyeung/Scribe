@@ -79,39 +79,28 @@
 <br/>
 <hr>
 </div>
-</hr>
 
 <p>Note: Moore’s Law and Kryder’s Law do not address speed or performance because they haven’t grown nearly as fast as complexity (storage space).  Operating systems have to deal with greater complexity, but hardware capabilities are not increasing at the same rate. This is a problem of incommensurate scaling.</p>
 <hr>
 
 <div class="blog-post">
 <h2><b><a id="os"></a>Why Not to Use an OS?</b></h2>
-<!--<p><b>Simplicity</b></p>
-<p> Running a program is much simpler than having an OS run a program.</p>
-<p><b>Performance</b></p>
-<p>An operating system requires a lot of features which adds complexity and as a consequence, affects speed and memory usage.</p>
-<p><b>Reliability</b></p>
-<p>Reliability stems from simplicity.  The code is less likely to break because there is less code.
-</p>
-<p><b>Security</b></p>
-<p>An operating system will increase the amount of code being run and therefore, increase the number of possible security leaks.
-</p>
-</ul> -->
 </div>
 
 <p>There are four basic reasons why using an OS might be a bad idea:</p>
-    <li>Running a program is much <b>simpler</b> than having an OS run a program.</li>
-    <li>An OS requires additional features (adding complexity) and therefore, slows <b>performance</b>.</li>
-    <li><b>Reliability</b> stems from simplicity.  The code is less likely to break because there is less code.</li>
-    <li>More code inevitably increases the number of possible <b>security</b> leaks.</li>
+    <ul>
+        <li>Running a program is much <b>simpler</b> than having an OS run a program.</li>
+        <li>An OS requires additional features (adding complexity) and therefore, slows <b>performance</b>.</li>
+        <li><b>Reliability</b> stems from simplicity.  The code is less likely to break because there is less code.</li>
+        <li>More code inevitably increases the number of possible <b>security</b> leaks.</li>
+    </ul>
 <hr>
 
 <div class="blog-post">
 <h2><b><a id="wordcount"></a>Word Count Program</b></h2>
 <h4><b>1. Requirements</b></h4>
 <p>Suppose we are writing a program for a paranoid English professor in order to help him count the number of words in his academic proposal.  The program must be run without an operating system.  We know the following:</p>
-<style type="text/css">ul.specs { padding-left: 80px; }
-.comment {color: #1F3A93}</style>
+
 <ul class= "specs">
     <li>The file is stored in a contiguous array of sectors on the disk drive.</li>
     <li>The bytes in the file are ASCII characters ranging from \001 to \127.</li>
@@ -121,8 +110,7 @@
 <h4><b>2. Bootstrapping Problem</b></h4>
 <p>Bootstrapping is the process of loading software into the memory of a computer after the computer has been powered on.  In this case, the word count program must be loaded into RAM so that it can be executed after the computer is started.</p>
 <p>This is done by the BIOS, or the basic input/output system.  At startup, the BIOS is used to get the computer system started.  Additionally, it is also used to manage data flow between the operating system and any devices.  The BIOS is stored in ROM and at startup does the following:</p>
-<style type="text/css">ol.specs { padding-left: 80px; }
-.comment {color: #1F3A93}</style>
+
 <ol class = "specs">
     <li>Runs hardware sanity checks</li>
     <li>Searches for devices</li>
@@ -132,15 +120,13 @@
 
 <h4><b>3. Master Boot Record</b></h4>
 <p>The 1st sector on the disk, consisting of 512 bytes, is the Master Boot Record (MBR).  The first part of this sector is the boot program which is run by the firmware in EEPROM.  When the computer starts up, the EEPROM searches for the first device with an MBR and loads it into memory.  Normally, the MBR would then read the volume boot record, VBR, into memory. However since the VBR is OS-specific and the MBR is OS-agnostic (and we do not want to use an OS), we will go straight from the MBR to the program.  The MBR is structured as follows:</p>
-<img class="thumbnail" src="http://imgur.com/aFp0EDk.jpg">
+<img class="thumbnail" src="http://imgur.com/aFp0EDk.jpg" alt="Structure of a Master Boot Record">
 <p>The first 446 bytes are the boot program.
 The next 64 bytes are a partition table. Each partition is 16 bytes long and contains information such as type and bootability. 
 The remaining two bytes are the signature and are required to be 0x55 and 0xAA (using little endian convention).  This ensures that this sector is, in fact, the Master Boot Record.</p>
 
 <h4><b>4. Code Implementation</b></h4>
 <p>To summarize, the load sequence that we want is: Firmware &rarr; MBR &rarr; word count program. In order to implement this, we will need a subroutine that allows us to read data from the disk. The following subroutine requires the sector number to read from and the memory address to read into.</p>
-
-</hr>
 
 <p>Note: There are no error checks in this code (assumed that there are no I/O or parity errors). Due to this, read_ide_sector can return void.</p>
 <hr>
@@ -198,13 +184,13 @@ void main(void)
     for (;;)
     {
         read_ide_sector(s++, buf);      <span class="comment">// read the sector into the buffer</span>
-        for (int ix = 0; ix < sizeof(buf); ix++)
+        for (int ix = 0; ix &lt; sizeof(buf); ix++)
         {   
             <span class="comment">// assume a null byte indicates the end of the file</span>
             if (!buf[ix])       
                 done(nwords);
             <span class="comment">// check if the letter is valid (a-z)</span>
-            bool isletter = 'A' | 'a' <= buf[ix] && buf[ix] <= 'z' || 'z'
+            bool isletter = 'A' | 'a' &lt;= buf[ix] && buf[ix] &lt;= 'z' || 'z'
             nwords += isletter & ~inword;
             inword = isletter;
         }
@@ -220,6 +206,6 @@ void main(void)
 <script src="http://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
 <script>
       $(document).foundation();
-    </script>
+</script>
 </body>
 </html>
